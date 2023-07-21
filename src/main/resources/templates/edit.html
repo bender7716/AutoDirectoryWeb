@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Auto-Directory-Web</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<h3>Редактирование автомобиля</h3>
+<hr>
+<form action="#" th:action="@{/}" th:object="${auto}" method="post">
+    <table class="table">
+        <thead>
+        <tr>
+            <div th:insert="~{home :: auto_thead_fragment}"></div>
+        </tr>
+        </thead>
+        <tr>
+            <input type="hidden" th:field="*{id}"/>
+            <td><input type="text" th:field="*{brand}"/></td>
+            <td><input type="text" th:field="*{model}"/></td>
+            <td><input type="text" th:field="*{category}"/></td>
+            <td><input type="text" th:field="*{registrationNumber}"/></td>
+            <td><input type="text" th:field="*{manufacturingYear}"/></td>
+            <td>
+                <select th:name="type">
+                    <option disabled th:selected="${auto.type == null}"></option>
+                    <option value="Легковая" th:selected="${auto.type == 'Легковая'}">Легковая</option>
+                    <option value="Грузовая" th:selected="${auto.type == 'Грузовая'}">Грузовая</option>
+                    <option value="Фура" th:selected="${auto.type == 'Фура'}">Фура</option>
+                </select>
+            </td>
+            <td><input type="checkbox" th:field="*{carTrailer}"/></td>
+
+            <td><input type="submit" value="Сохранить"/></td>
+            <td>
+                <button onclick="document.location='/'">Отмена</button>
+            </td>
+        </tr>
+    </table>
+</form>
+
+</body>
+</html>

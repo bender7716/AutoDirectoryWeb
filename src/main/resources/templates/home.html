@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Auto-Directory-Web</title>
+    <link rel="stylesheet" href="/style.css">
+<!--    <link th:href="@{/css/style.css}" rel="stylesheet" />-->
+</head>
+<body>
+
+<div th:fragment="auto_fragment">
+    <h3>Справочник автомобилей</h3>
+    <button onclick="document.location='/new'">Добавить новый автомобиль</button>
+    <hr>
+    <table class="table">
+        <thead>
+        <tr>
+            <div th:fragment="auto_thead_fragment">
+                <th>Бренд</th>
+                <th>Модель</th>
+                <th>Категория</th>
+                <th>Регистрационный знак</th>
+                <th>Год изготовления</th>
+                <th>Тип</th>
+                <th>Наличие прицепа</th>
+                <th colspan="2">Редактирование</th>
+            </div>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="auto : ${autos}">
+            <div th:fragment="auto_tbody_fragment">
+                <td th:text="${auto.brand}"></td>
+                <td th:text="${auto.model}"></td>
+                <td th:text="${auto.category}"></td>
+                <td th:text="${auto.registrationNumber}"></td>
+                <td th:text="${auto.manufacturingYear}"></td>
+                <td th:text="${auto.type}"></td>
+                <td><input type="checkbox" disabled readonly th:checked="${auto.carTrailer}"/></td>
+
+                <td><a class="btn" th:href="@{/{id}(id=${auto.id})}">Редактировать</a></td>
+                <td>
+                    <form th:action="@{/{id}(id=${auto.id})}" method="post">
+                        <input type="submit" value="Удалить"/>
+                    </form>
+                </td>
+            </div>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <form action="#" th:action="@{/filter}" th:object="${filter}" method="post">
+            <tr>
+                <td><input type="text" th:field="*{brand}"></td>
+                <td><input type="text" th:field="*{model}"></td>
+                <td><input type="text" th:field="*{category}"></td>
+                <td><input type="text" th:field="*{registrationNumber}"></td>
+                <td><input type="text" th:field="*{manufacturingYear}"></td>
+                <td>
+                    <select th:name="type">
+                        <option disabled th:selected="${filter.type == null}"></option>
+                        <option value="Легковая" th:selected="${filter.type == 'Легковая'}">Легковая</option>
+                        <option value="Грузовая" th:selected="${filter.type == 'Грузовая'}">Грузовая</option>
+                        <option value="Фура" th:selected="${filter.type == 'Фура'}">Фура</option>
+                    </select>
+                </td>
+                <td></td>
+                <td><input type="submit" value="Фильтровать"/></td>
+<!--                <td><button onclick="document.location='/'">Cancel</button></td>-->
+                <td><a class="btn" href="/">Очистить фильтр</a></td>
+            </tr>
+        </form>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
